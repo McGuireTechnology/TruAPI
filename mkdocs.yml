@@ -56,19 +56,19 @@ markdown_extensions:
   - md_in_html
   - tables
 
-nav:
-  - Home: index.md
-  - Reference:
-      - Overview: reference/index.md
-      - Users: reference/users.md
-      - Core: reference/core.md
-  - User Guide:
-      - Introduction: user/introduction.md
-      - Quick Start: user/quickstart.md
-  - Developer:
-      - Architecture: developer/architecture.md
-      - Getting Started: developer/getting-started.md
-  - About: about.md
+# nav:
+#   - Home: index.md
+#   - Reference:
+#       - Overview: reference/index.md
+#       - Users: reference/users.md
+#       - Core: reference/core.md
+#   - User Guide:
+#       - Introduction: user/introduction.md
+#       - Quick Start: user/quickstart.md
+#   - Developer:
+#       - Architecture: developer/architecture.md
+#       - Getting Started: developer/getting-started.md
+#   - About: about.md
 
 plugins:
   - search
@@ -84,6 +84,10 @@ plugins:
             allow_inspection: true
             show_root_heading: true
   - swagger-ui-tag
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - js/mermaid-init.js
 
 extra:
   social:
