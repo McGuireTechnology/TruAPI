@@ -1,0 +1,174 @@
+{
+    "FastAPI Route": {
+        "prefix": "route",
+        "body": [
+            "@router.${1|get,post,put,patch,delete|}(\"/${2:path}\")",
+            "async def ${3:function_name}(",
+            "    $4",
+            ") -> ${5:ResponseModel}:",
+            "    \"\"\"${6:Description}.",
+            "    ",
+            "    Args:",
+            "        $7",
+            "    ",
+            "    Returns:",
+            "        ${8:Return description}",
+            "    \"\"\"",
+            "    $0"
+        ],
+        "description": "FastAPI route handler"
+    },
+    "Pydantic Model": {
+        "prefix": "pydmodel",
+        "body": [
+            "class ${1:ModelName}(BaseModel):",
+            "    \"\"\"${2:Description}.",
+            "    ",
+            "    Attributes:",
+            "        ${3:field}: ${4:Description}",
+            "    \"\"\"",
+            "    ",
+            "    ${3:field}: ${5:str} = Field(",
+            "        ...,",
+            "        description=\"${6:Field description}\"",
+            "    )",
+            "    $0"
+        ],
+        "description": "Pydantic model class"
+    },
+    "Database Provider Dependency": {
+        "prefix": "dbdep",
+        "body": [
+            "async def get_db_session() -> AsyncIterator[DatabaseSession]:",
+            "    \"\"\"Dependency that provides a database session.\"\"\"",
+            "    async with ${1:db_provider}.session() as session:",
+            "        yield session"
+        ],
+        "description": "Database provider dependency"
+    },
+    "File Provider Dependency": {
+        "prefix": "filedep",
+        "body": [
+            "def get_file_provider() -> ${1:ContentProvider}:",
+            "    \"\"\"Dependency that provides file storage.\"\"\"",
+            "    return ${2:file_provider}"
+        ],
+        "description": "File provider dependency"
+    },
+    "Async Test Function": {
+        "prefix": "atest",
+        "body": [
+            "@pytest.mark.asyncio",
+            "async def test_${1:function_name}(${2:fixtures}):",
+            "    \"\"\"${3:Test description}.\"\"\"",
+            "    # Arrange",
+            "    ${4:# Setup}",
+            "    ",
+            "    # Act",
+            "    ${5:result = await function()}",
+            "    ",
+            "    # Assert",
+            "    ${6:assert result}",
+            "    $0"
+        ],
+        "description": "Async test function"
+    },
+    "Repository Method": {
+        "prefix": "repomethod",
+        "body": [
+            "async def ${1:method_name}(self, ${2:params}) -> ${3:ReturnType}:",
+            "    \"\"\"${4:Method description}.",
+            "    ",
+            "    Args:",
+            "        ${5:param}: ${6:Description}",
+            "    ",
+            "    Returns:",
+            "        ${7:Return description}",
+            "    ",
+            "    Raises:",
+            "        ${8:Exception}: ${9:When this happens}",
+            "    \"\"\"",
+            "    $0"
+        ],
+        "description": "Repository method"
+    },
+    "Service Method": {
+        "prefix": "service",
+        "body": [
+            "async def ${1:method_name}(",
+            "    self,",
+            "    ${2:params},",
+            ") -> ${3:ReturnType}:",
+            "    \"\"\"${4:Service method description}.",
+            "    ",
+            "    Business logic for ${5:what this does}.",
+            "    ",
+            "    Args:",
+            "        ${6:param}: ${7:Description}",
+            "    ",
+            "    Returns:",
+            "        ${8:Return description}",
+            "    ",
+            "    Raises:",
+            "        ${9:DomainException}: ${10:When this happens}",
+            "    \"\"\"",
+            "    $0"
+        ],
+        "description": "Service method with business logic"
+    },
+    "Settings Class": {
+        "prefix": "settings",
+        "body": [
+            "class ${1:Module}Settings(BaseSettings):",
+            "    \"\"\"Settings for the ${2:module} module.\"\"\"",
+            "    ",
+            "    model_config = SettingsConfigDict(",
+            "        env_file=\".env\",",
+            "        env_prefix=\"${3:MODULE}_\",",
+            "        case_sensitive=False,",
+            "        extra=\"ignore\",",
+            "    )",
+            "    ",
+            "    ${4:setting_name}: ${5:str} = Field(",
+            "        default=\"${6:default_value}\",",
+            "        description=\"${7:Setting description}\"",
+            "    )",
+            "    $0",
+            "",
+            "",
+            "${8:module}_settings = ${1:Module}Settings()"
+        ],
+        "description": "Pydantic Settings class"
+    },
+    "Exception Class": {
+        "prefix": "exception",
+        "body": [
+            "class ${1:ExceptionName}(${2:BaseException}):",
+            "    \"\"\"${3:Exception description}.",
+            "    ",
+            "    Raised when ${4:condition}.",
+            "    \"\"\"",
+            "    ",
+            "    def __init__(self, message: str = \"${5:Default message}\"):",
+            "        self.message = message",
+            "        super().__init__(self.message)"
+        ],
+        "description": "Custom exception class"
+    },
+    "Dataclass": {
+        "prefix": "dataclass",
+        "body": [
+            "@dataclass(frozen=${1|True,False|})",
+            "class ${2:ClassName}:",
+            "    \"\"\"${3:Class description}.",
+            "    ",
+            "    Attributes:",
+            "        ${4:field}: ${5:Description}",
+            "    \"\"\"",
+            "    ",
+            "    ${4:field}: ${6:str}",
+            "    $0"
+        ],
+        "description": "Python dataclass"
+    }
+}

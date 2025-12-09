@@ -1,0 +1,39 @@
+{
+    // Recommended extensions for this workspace
+    "recommendations": [
+        // Python essentials
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        // Testing
+        "ms-python.pytest",
+        // Git
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        // Documentation
+        "yzhang.markdown-all-in-one",
+        "bierner.markdown-mermaid",
+        // Database tools
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-sqlite",
+        "mtxr.sqltools-driver-pg",
+        // Docker (if using containers)
+        "ms-azuretools.vscode-docker",
+        // Environment files
+        "mikestead.dotenv",
+        // REST API testing
+        "humao.rest-client",
+        // YAML
+        "redhat.vscode-yaml",
+        // Utilities
+        "streetsidesoftware.code-spell-checker",
+        "editorconfig.editorconfig",
+        "aaron-bond.better-comments",
+        "usernamehw.errorlens"
+    ],
+    // Extensions to explicitly avoid (conflicts or not needed)
+    "unwantedRecommendations": [
+        "ms-python.autopep8"
+    ]
+}

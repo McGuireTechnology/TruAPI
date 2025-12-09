@@ -1,0 +1,44 @@
+name: mcguire-api
+region: nyc
+services:
+  - name: api
+    github:
+      repo: McGuireTechnology/API
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: Dockerfile
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    http_port: 8080
+    routes:
+      - path: /
+    envs:
+      - key: ENVIRONMENT
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: https://mcguire.technology,https://www.mcguire.technology
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        type: SECRET
+      - key: SPACES_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: SPACES_SECRET
+        scope: RUN_TIME
+        type: SECRET
+      - key: SPACES_BUCKET
+        value: mcguire-api
+      - key: SPACES_REGION
+        value: nyc3
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+
+domains:
+  - domain: api.mcguire.technology
+    type: PRIMARY
+    zone: mcguire.technology

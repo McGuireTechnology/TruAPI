@@ -1,0 +1,91 @@
+site_name: TruAPI Documentation
+site_description: ""
+site_author: McGuire Technology, LLC
+site_url: https://mcguire.technology
+
+repo_name: TruAPI
+repo_url: https://github.com/mcguiretechnology/truapi
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+
+nav:
+  - Home: index.md
+  - Reference:
+      - Overview: reference/index.md
+      - Users: reference/users.md
+      - Core: reference/core.md
+  - User Guide:
+      - Introduction: user/introduction.md
+      - Quick Start: user/quickstart.md
+  - Developer:
+      - Architecture: developer/architecture.md
+      - Getting Started: developer/getting-started.md
+  - About: about.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            inherited_members: true
+            members_order: source
+            separate_signature: true
+            allow_inspection: true
+            show_root_heading: true
+  - swagger-ui-tag
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mcguiretechnology/truapi
