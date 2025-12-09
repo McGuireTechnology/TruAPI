@@ -6,11 +6,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class AppSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_prefix="APP_", extra="ignore")
 
-    NAME: str = "McGuire Technology"
+    NAME: str = "TruAPI"
     VERSION: str = "1.0.0"
     HOST: str = "127.0.0.1"
-    PORT: int = 8000
-    DEBUG: bool = False
+    PORT: int = 8001
+    DEBUG: bool = True
     ENVIRONMENT: str = "development"
 
 

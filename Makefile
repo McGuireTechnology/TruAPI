@@ -23,14 +23,14 @@ install: ## Install dependencies with Poetry
 install-prod: ## Install only production dependencies
 	poetry install --only main
 
-dev: ## Run the FastAPI application in development mode
-	$(UVICORN) truapi.drivers.rest.main:app --reload --host 0.0.0.0 --port 8000
+dev: ## Run the FastAPI application in development mode (port 8001)
+	$(UVICORN) truapi.drivers.rest.main:app --reload --host 0.0.0.0 --port 8001
 
-dev-docs: ## Serve documentation locally with MkDocs
-	$(MKDOCS) serve
+dev-docs: ## Serve documentation locally with MkDocs (port 8002)
+	$(MKDOCS) serve -a 127.0.0.1:8002
 
-run: ## Run the FastAPI application in production mode
-	$(UVICORN) truapi.drivers.rest.main:app --host 0.0.0.0 --port 8000 --workers 4
+run: ## Run the FastAPI application in production mode (port 8001)
+	$(UVICORN) truapi.drivers.rest.main:app --host 0.0.0.0 --port 8001 --workers 4
 
 test: ## Run tests with pytest
 	$(PYTEST) tests/ -v
