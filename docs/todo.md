@@ -106,3 +106,86 @@ This file captures prioritized engineering tasks discovered from scanning the `t
 2. Implement AsyncSession factory and wire `repo_dep("user")` to SQLAlchemy repo by default.
 3. Add pagination to `/users` list and update docs.
 4. Strengthen `User` invariants and update tests accordingly.
+
+## Personal Finance Features
+Design and implement resources/endpoints to power a personal finance application. Each section includes domain, storage, API, and integration tasks.
+
+### Accounts
+- Domain: `Account` entity (id, name, type, institution_id, currency, status, metadata).
+- Storage: Tables for accounts and balances; unique constraints per institution.
+- API: CRUD endpoints; list with filters (institution, type, active).
+- Integrations: Link to institutions; reconcile balances via import sessions.
+- Reporting: Aggregate balances and time series.
+
+### Budgets
+- Domain: `Budget` and `BudgetLine` entities (category_id, period, amount, rollover, notes).
+- Storage: Budget tables keyed by period (monthly/weekly); enforce category uniqueness per period.
+- API: CRUD budgets and lines; endpoints to compute remaining/overspend.
+- Calculations: Support rollover rules and carry-forward logic.
+
+### Categories
+- Domain: `Category` entity with hierarchy (parent_id), type (income/expense/transfer), and tags.
+- Storage: Category table with unique name per user/context.
+- API: CRUD with search and hierarchy retrieval; prevent deletion when referenced.
+- Mapping: Category inference during import based on rules/tags.
+
+### Goals
+- Domain: `Goal` entity (target_amount, current_amount, due_date, category/account link).
+- Storage: Goal table and progress snapshots.
+- API: CRUD; progress computation and projections.
+- Automation: Optionally link recurring rules to contribute toward goals.
+
+### Import Items & Import Sessions
+- Domain: `ImportSession` (source, started_at, status) and `ImportItem` (raw payload, parsed fields, match status).
+- Parsing: Pluggable parsers for CSV/OFX/QIF/API connectors.
+- Matching: Deduplicate by amount/date/description/fit rules; fuzzy matching; link to existing transactions.
+- API: Session lifecycle (start, validate, apply); item review endpoints.
+- Auditing: Keep raw artifacts for traceability.
+
+### Institutions
+- Domain: `Institution` entity (name, provider, connection status).
+- API: CRUD; connect/disconnect flows with provider tokens.
+- Integrations: Provider adapters (e.g., Plaid-like) with sandbox support.
+
+### Investments
+- Domain: `InvestmentAccount`, `Holding`, `Transaction` (symbol, quantity, price, type).
+- Storage: Holdings snapshots, transaction ledger.
+- API: Portfolio overview, positions, transactions; performance metrics (time-weighted return).
+- Pricing: Price service integration and caching.
+
+### Net Worth Snapshots
+- Domain: `NetWorthSnapshot` (timestamp, assets, liabilities, net_worth, breakdown).
+- Calculation: Aggregate across accounts and investments; currency conversion.
+- API: Create snapshots; list/range queries; charts.
+
+### Recurring Rules
+- Domain: `RecurringRule` (schedule, amount, account/category, description, auto-apply).
+- Engine: Scheduler to instantiate upcoming transactions; skip/modify rules.
+- API: CRUD rules; preview next occurrences.
+
+### Rules (Categorization)
+- Domain: `Rule` for categorization/tagging (conditions on description, amount, merchant, account).
+- Engine: Apply on import and manual entry; precedence and conflict resolution.
+- API: CRUD rules; test rule against sample transactions.
+
+### Tags
+- Domain: `Tag` entity; many-to-many with transactions/categories.
+- API: CRUD; tagging endpoints; analytics by tag.
+
+### Transaction Splits
+- Domain: `Transaction` with splits (amount shares to categories/goals).
+- Storage: Split lines linked to a parent transaction.
+- API: Create/update transactions with splits; validation of amounts sum.
+- UI support: Return friendly structures for client-side editors.
+
+### Transfers
+- Domain: Transfer between accounts (source, target, amount, date); avoid double-counting.
+- API: Create transfers; link paired transactions; reconciliation logic.
+- Validation: Currency consistency and account ownership checks.
+
+### Cross-Cutting Finance Concerns
+- Consistency: Immutable transaction IDs; audit trail and soft-delete.
+- Currency: Multi-currency support with FX rates and conversions.
+- Pagination: All list endpoints support paging/sorting; index on common filters.
+- Permissions: Integrate ACLs for resource ownership (accounts, budgets, etc.).
+- Testing: Seed data factories; end-to-end tests for import → categorize → budget impact.
