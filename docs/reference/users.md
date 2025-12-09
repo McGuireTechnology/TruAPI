@@ -1,7 +1,3 @@
----
-title: Users Reference
----
-
 # Users
 
 End‑to‑end reference for the Users slice: domain → use cases → ports → adapters → drivers.
@@ -9,28 +5,34 @@ End‑to‑end reference for the Users slice: domain → use cases → ports →
 ## Domain
 
 ### Entity
-::: api.domain.entities.user
+
+::: truapi.domains.entities.user
 
 ## Use Cases
-::: api.use_cases.user.create
-::: api.use_cases.user.get
-::: api.use_cases.user.update
-::: api.use_cases.user.delete
+
+::: truapi.use_cases.user.create
+::: truapi.use_cases.user.get
+::: truapi.use_cases.user.update
+::: truapi.use_cases.user.delete
 
 ## Ports
-::: api.ports.repositories.user
+
+::: truapi.ports.repositories.user
 
 ## Adapters
 
 ### In‑Memory Repository
-::: api.adapters.repositories.user.in_memory
+
+::: truapi.adapters.repositories.user.in_memory
 
 ### SQLAlchemy Repository
-::: api.adapters.repositories.user.sqlalchemy
+
+::: truapi.adapters.repositories.user.sqlalchemy
 
 ## Drivers (REST)
-::: api.drivers.rest.routers.users
+
+::: truapi.drivers.rest.routers.users
 
 ## OpenAPI
 
-<swagger-ui src="openapi-users.json"></swagger-ui>
+<!-- Swagger JSON not present; embed removed to avoid build warnings. -->
