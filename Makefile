@@ -10,9 +10,10 @@ PYTEST := poetry run pytest
 BLACK := poetry run black
 RUFF := poetry run ruff
 MYPY := poetry run mypy
+MKDOCS := poetry run mkdocs
 
 help: ## Show this help message
-	@echo "McGuire Technology API - Available Commands:"
+	@echo "TruAPI - Available Commands:"
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
@@ -23,31 +24,34 @@ install-prod: ## Install only production dependencies
 	poetry install --only main
 
 dev: ## Run the FastAPI application in development mode
-	$(UVICORN) api.drivers.rest.main:app --reload --host 0.0.0.0 --port 8000
+	$(UVICORN) truapi.drivers.rest.main:app --reload --host 0.0.0.0 --port 8000
+
+dev-docs: ## Serve documentation locally with MkDocs
+	$(MKDOCS) serve
 
 run: ## Run the FastAPI application in production mode
-	$(UVICORN) api.drivers.rest.main:app --host 0.0.0.0 --port 8000 --workers 4
+	$(UVICORN) truapi.drivers.rest.main:app --host 0.0.0.0 --port 8000 --workers 4
 
 test: ## Run tests with pytest
 	$(PYTEST) tests/ -v
 
 test-cov: ## Run tests with coverage report
-	$(PYTEST) tests/ -v --cov=api --cov-report=html --cov-report=term
+	$(PYTEST) tests/ -v --cov=truapi --cov-report=html --cov-report=term
 
 format: ## Format code with Black
-	$(BLACK) api/ tests/
+	$(BLACK) truapi/ tests/
 
 format-check: ## Check code formatting without making changes
-	$(BLACK) api/ tests/ --check
+	$(BLACK) truapi/ tests/ --check
 
 lint: ## Lint code with Ruff
-	$(RUFF) check api/ tests/
+	$(RUFF) check truapi/ tests/
 
 lint-fix: ## Lint and auto-fix issues with Ruff
-	$(RUFF) check api/ tests/ --fix
+	$(RUFF) check truapi/ tests/ --fix
 
 type-check: ## Type check with mypy
-	$(MYPY) api/
+	$(MYPY) truapi/
 
 check: format-check lint type-check ## Run all checks (format, lint, type)
 
@@ -78,7 +82,7 @@ lock: ## Update poetry.lock file
 	poetry lock --no-update
 
 docker-build: ## Build Docker image
-	docker build -t mcguire-api:latest .
+	docker build -t truapi:latest .
 
 docker-up: ## Start services with docker-compose
 	docker-compose up -d
@@ -99,7 +103,7 @@ db-downgrade: ## Rollback last migration
 	$(PYTHON) -m alembic downgrade -1
 
 info: ## Show project information
-	@echo "Project: McGuire Technology API"
+	@echo "Project: TruAPI"
 	@echo "Python version:"
 	@poetry run python --version
 	@echo ""
@@ -116,19 +120,19 @@ setup-droplet: ## Initial setup of Digital Ocean Droplet (run on server)
 	@bash deploy/setup.sh
 
 restart-service: ## Restart the systemd service (run on server)
-	sudo systemctl restart mcguire-api
+	sudo systemctl restart truapi
 
 logs-service: ## View application logs (run on server)
-	sudo journalctl -u mcguire-api -f
+	sudo journalctl -u truapi -f
 
 logs-nginx: ## View Nginx logs (run on server)
-	sudo tail -f /var/log/nginx/api.mcguire.technology.access.log
+	sudo tail -f /var/log/nginx/truapi.mcguire.technology.access.log
 
 status: ## Check service status (run on server)
-	sudo systemctl status mcguire-api
+	sudo systemctl status truapi
 
 deploy-production: ## Pull latest code and restart (run on server)
 	git pull origin main
 	poetry install --only main --no-interaction
-	sudo systemctl restart mcguire-api
+	sudo systemctl restart truapi
 	@echo "✅ Deployment completed"
